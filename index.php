@@ -45,5 +45,6 @@
       <br>
       <br><hr>
       <a href="create.php"><button>글쓰기</button></a>
+      <a href="login.php"><button>로그인</button></a>
   </body>
 </html>
