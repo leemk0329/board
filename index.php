@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+ <?php session_start();?>
   <head>
     <meta charset="utf-8">
     <title>게시판만들기</title>
    </head>
   <body>
+    <?php
+	   if(isset($_SESSION['USER_ID'])){
+		  echo "<h2>{$_SESSION['USER_ID']}</h2>";}
+	  ?>
+    <a href="logout_ok.php"><input type="button" value="로그아웃" /></a>
     <h1 style="text-align:center"><a href="index.php?">게시판만들기</a></h1><br>
     <br>
       <table style="text-align:center">

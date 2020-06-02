@@ -50,11 +50,6 @@
                   <td>본문</td>
                   <td><textarea name="Maintext" content cols=85 rows=15></textarea></td>
                   </tr>
-                  <tr>
-                  <td>작성자</td>
-                  <td><input type="text" name="NAME" size=20>
-                  </td>
-                  </tr>
                   <center>
                   <input type="submit" value="글쓰기">
                   </center>
