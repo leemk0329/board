@@ -6,6 +6,10 @@
   </head>
   <body>
      <?php
+     session_start();
+     if(!isset($_SESSION['USER_ID'])){?>
+     <script>alert("로그인하세요"); location.href="/"; </script>;
+     <?php } else {
      require("db.php");
      $sql = mysqli_connect($AD,$ID,$PW,$DB);
      $select_query = "SELECT * FROM board where ID={$_GET['id']}";
@@ -18,7 +22,7 @@
       <textarea name="Maintext"><?php echo $row['Maintext'];?></textarea><br>
       <input type="text" name="NAME" value=<?php echo $row['NAME'];?>><br>
       <input type="submit" value="수정완료">
-     </form>
+    </form> <?php } ?>
 
   </body>
 </html>
