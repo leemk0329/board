@@ -13,6 +13,6 @@ if($result === false){
   echo '작성에 실패하였습니다';
   error_log(mysqli_error($sql));
 } else {
-  echo '작성완료. <a href="index.php">돌아가기</a>';
+  echo "<script>alert('댓글작성완료!!'); location.href='read.php?id={$_POST["CO_NUM"]}';</script>";
 }?>
 <?php } ?>

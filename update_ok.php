@@ -10,6 +10,6 @@ if($result === false){
   echo '수정에 실패하였습니다';
   error_log(mysqli_error($sql));
 } else {
-  echo '글수정완료. <a href="index.php">돌아가기</a>';
+  echo "<script>alert('수정완료!!'); location.href='read.php?id={$_POST["ID"]}';</script>";
 }
 ?>

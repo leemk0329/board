@@ -29,6 +29,18 @@
    </nav>
     <br>
     <div class="container">
+  <?php
+  if (empty($_GET['catgo'])) {
+    echo "<script>alert('검색필터를 설정하세요'); history.back();</script>";
+  }
+  $catagory = $_GET['catgo'];
+  $search_con = $_GET['search'];
+  $search_string = 'catgo='.$catagory.'&amp;search='.$search_con.'&amp;'.'page';
+  ?>
+  <h4>'<?php echo $search_con; ?>' 검색결과</h4>
+
+
+
 
       <table class="table table-hover">
         <thead>
@@ -48,7 +60,7 @@
              }
           require("db.php");
           $sql = mysqli_connect($AD,$ID,$PW,$DB);
-          $select_query = "SELECT * FROM board";
+          $select_query = "SELECT * FROM board WHERE $catagory like '%$search_con%'";
           $result = mysqli_query($sql,$select_query);
           $row_count = mysqli_num_rows($result);
           $list = 10;
@@ -62,7 +74,7 @@
           $total_block = ceil($total_page/$block_ct);
           $start_num = ($page-1) * $list;
 
-          $select_query2 = "SELECT * FROM board order by ID desc limit $start_num, $list";
+          $select_query2 = "SELECT * FROM board WHERE $catagory like '%$search_con%' order by ID desc limit $start_num, $list";
           $result2 = mysqli_query($sql,$select_query2);
           while ($row = mysqli_fetch_array($result2)) {
             $select_query3= "SELECT * FROM comment where CO_NUM ={$row['ID']}";
@@ -93,77 +105,38 @@
       <?php
         if($page <= 1)
         { //만약 page가 1보다 크거나 같다면
-          echo "<li class=\"page-item\"><a class=\"page-link\" href='?page=1'>First</a></li>"; //처음이라는 글자에 빨간색 표시
+          echo "<li class=\"page-item\"><a class=\"page-link\" href='?$search_string=1'>First</a></li>"; //처음이라는 글자에 빨간색 표시
         }else{
-          echo "<li class=\"page-item\"><a class=\"page-link\" href='?page=1'>First</a></li>"; //알니라면 처음글자에 1번페이지로 갈 수있게 링크
+          echo "<li class=\"page-item\"><a class=\"page-link\" href='?$search_string=1'>First</a></li>"; //알니라면 처음글자에 1번페이지로 갈 수있게 링크
         }
         if($page <= 1)
         { //만약 page가 1보다 크거나 같다면 빈값
 
         }else{
         $pre = $page-1; //pre변수에 page-1을 해준다 만약 현재 페이지가 3인데 이전버튼을 누르면 2번페이지로 갈 수 있게 함
-          echo "<li class=\"page-item\"><a class=\"page-link\" href='?page=$pre'>Previous</a></li>"; //이전글자에 pre변수를 링크한다. 이러면 이전버튼을 누를때마다 현재 페이지에서 -1하게 된다.
+          echo "<li class=\"page-item\"><a class=\"page-link\" href='?$search_string=$pre'>Previous</a></li>"; //이전글자에 pre변수를 링크한다. 이러면 이전버튼을 누를때마다 현재 페이지에서 -1하게 된다.
         }
         for($i=$block_start; $i<=$block_end; $i++){
           //for문 반복문을 사용하여, 초기값을 블록의 시작번호를 조건으로 블록시작번호가 마지박블록보다 작거나 같을 때까지 $i를 반복시킨다
           if($page == $i){ //만약 page가 $i와 같다면
             echo "<li class=\"page-item\"><a class=\"page-link\" href=\"#\">$i</a></li>"; //현재 페이지에 해당하는 번호에 굵은 빨간색을 적용한다
           }else{
-            echo "<li class=\"page-item\"><a class=\"page-link\" href='?page=$i'>$i</a></li>"; //아니라면 $i
+            echo "<li class=\"page-item\"><a class=\"page-link\" href='?$search_string=$i'>$i</a></li>"; //아니라면 $i
           }
         }
         if($block_num >= $total_block){ //만약 현재 블록이 블록 총개수보다 크거나 같다면 빈 값
         }else{
           $next = $page + 1; //next변수에 page + 1을 해준다.
-          echo "<li class=\"page-item\"><a class=\"page-link\" href='?page=$next'>Next</a></li>"; //다음글자에 next변수를 링크한다. 현재 4페이지에 있다면 +1하여 5페이지로 이동하게 된다.
+          echo "<li class=\"page-item\"><a class=\"page-link\" href='?$search_string=$next'>Next</a></li>"; //다음글자에 next변수를 링크한다. 현재 4페이지에 있다면 +1하여 5페이지로 이동하게 된다.
         }
         if($page >= $total_page){ //만약 page가 페이지수보다 크거나 같다면
           echo "<li class=\"page-item\"><a class=\"page-link\" href=\"#\">Last</a></li>"; //마지막 글자에 긁은 빨간색을 적용한다.
         }else{
-          echo "<li class=\"page-item\"><a class=\"page-link\" href='?page=$total_page'>Last</a></li>"; //아니라면 마지막글자에 total_page를 링크한다.
+          echo "<li class=\"page-item\"><a class=\"page-link\" href='?$search_string=$total_page'>Last</a></li>"; //아니라면 마지막글자에 total_page를 링크한다.
         }
       ?>
       </ul>
       </div>
       </div>
-
-      <script>$(document).ready(function(e){
-          $('.search-panel .dropdown-menu').find('a').click(function(e) {
-      		e.preventDefault();
-      		var param = $(this).attr("href").replace("#","");
-      		var concept = $(this).text();
-      		$('.search-panel span#search_concept').text(concept);
-      		$('.input-group #search_param').val(param);
-      	});
-      });</script>
-
-
-        <div class="container center-block" style="width: 600px;padding:10px;">
-        <div class="row">
-        <form action="search.php" method="get">
-        <div class="col-xs-8 col-xs-offset-2">
-        <div class="input-group">
-          <div class="input-group-btn search-panel">
-                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                      	<span id="search_concept">Filter by</span> <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="#Title">Title</a></li>
-                        <li><a href="#Name">Name</a></li>
-                        <li><a href="#Maintext">Content</a></li>
-
-                      </ul>
-                  </div>
-        <input type="hidden" name="catgo" id="search_param">
-        <input type="text" class="form-control" name="search" placeholder="Search term...">
-        <span class="input-group-btn">
-        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-        </span>
-        </div>
-        </div>
-        </form>
-        </div>
-        </div>
-
-
+  </body>
 </html>

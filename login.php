@@ -2,60 +2,41 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>로그인</title>
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   </head>
-  <style>
-        table.table2{
-                border-collapse: separate;
-                border-spacing: 1px;
-                text-align: left;
-                line-height: 1.5;
-                border-top: 1px solid #ccc;
-                margin : 10px 10px;
-        }
-        table.table2 tr {
-                width: 30px;
-                padding: 5px;
-                font-weight: bold;
-                vertical-align: top;
-                border-bottom: 1px solid #ccc;
-        }
-        table.table2 td {
-                 width: 50px;
-                 padding: 4px;
-                 vertical-align: top;
-                 border-bottom: 1px solid #ccc;
-        }
-</style>
+
   <body>
-    <form action="login_ok.php" method="post">
-      <table  style="padding-top:80px" align = center width=100 border=0 cellpadding=2 >
-                <tr>
-                <td height=20 align= center bgcolor=#ccc><font color=white> 로그인</font></td>
-                </tr>
-                <tr>
-                <td bgcolor=white>
-                <table class = "table2">
-                  <tr>
-                  <td>아이디</td>
-                  <td><input type="text" name="ID" size = 30>
-                  </td>
-                  </tr>
-                  <tr>
-                  <td>비밀번호</td>
-                  <td><input type="text" name="PW" size = 30>
-                  </td>
-                  </tr>
-                </td>
-                </tr>
-      </table>
-    <center>
-    <input type="submit" value="로그인">
-    </center>
-    </form>
-    <br>
+    <nav class="navbar navbar-inverse">
+     <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="index.php?">Free Board</a>
+      </div>      
+     </div>
+    </nav>
+    <div class="container">
+      <br>
+      <br>
+      <br>
+            <form action="login_ok.php" method="post">
+            <form role="form">
+            <div class="row">
+            <div class="col-lg-3" style="float:none; margin:0 auto;">
+            <div class="form-group">
+            <label><h3>Please sign in</h3></label>
+            </div>
+            <div class="form-group">
+            <input type="text" name="ID" class="form-control" placeholder="ID" required autofocus></div><br>
+            <div class="form-group">
+            <input type="password" name="PW"class="form-control" placeholder="Enter password" required></div><br>
+            <input type="submit" value="Log In" class="btn btn-success pull-right">
+          </div>
+          </div>
+           </form>
+           </form>
+     </div>
   </body>
-  <center>
-  <a href="user.php">회원가입</a>
-  </center>
 </html>
