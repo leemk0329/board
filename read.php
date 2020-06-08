@@ -36,7 +36,7 @@
           <?php
           require("db.php");
           $sql = mysqli_connect($AD,$ID,$PW,$DB);
-          $select_query = "SELECT * FROM board WHERE ID={$_GET['id']}";
+          $select_query = "SELECT * FROM board WHERE idx={$_GET['id']}";
           $result = mysqli_query($sql,$select_query);
           $row = mysqli_fetch_array($result);
           $row['HIT'] = $row['HIT'] +1;

@@ -40,6 +40,7 @@
       <div class="form-group">
       <input type="hidden" name="ID" value="<?php echo $row['ID'];?>">
       <input type="hidden" name="CO_NUM" value="<?php echo $row['CO_NUM'];?>">
+      <input type="hidden" name="NAME" value="<?php echo $row['NAME'];?>">
       <div class="form-group">
       <label>comment</label>
       <textarea name="CO_TEXT" class="form-control" rows="5"><?php echo $row['CO_TEXT'];?></textarea>

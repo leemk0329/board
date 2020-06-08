@@ -62,18 +62,18 @@
           $total_block = ceil($total_page/$block_ct);
           $start_num = ($page-1) * $list;
 
-          $select_query2 = "SELECT * FROM board order by ID desc limit $start_num, $list";
+          $select_query2 = "SELECT * FROM board order by idx desc limit $start_num, $list";
           $result2 = mysqli_query($sql,$select_query2);
           while ($row = mysqli_fetch_array($result2)) {
-            $select_query3= "SELECT * FROM comment where CO_NUM ={$row['ID']}";
+            $select_query3= "SELECT * FROM comment where CO_NUM ={$row['idx']}";
             $result3 = mysqli_query($sql,$select_query3);
             $co_count = mysqli_num_rows($result3);
           ?>
           <tbody>
             <tr>
-              <td><?php echo $row['ID'];?></td>
+              <td><?php echo $row['idx'];?></td>
               <td>
-              <a href="read.php?id=<?php echo $row["ID"];?>">
+              <a href="read.php?id=<?php echo $row["idx"];?>">
               <?php echo $row["Title"];?> <span style="font-weight:bold; color:blue">(<?php echo $co_count;?>)</span></a></td>
               <td><?php echo $row["NAME"]; ?></td>
               <td><?php echo $row["Date"]; ?></td>

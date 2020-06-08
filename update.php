@@ -27,7 +27,7 @@
     <?php
      require("db.php");
      $sql = mysqli_connect($AD,$ID,$PW,$DB);
-     $select_query = "SELECT * FROM board where ID={$_GET['id']}";
+     $select_query = "SELECT * FROM board where idx={$_GET['id']}";
      $result = mysqli_query($sql,$select_query);
      $row = mysqli_fetch_array($result);?>
      <div class="container">
@@ -42,7 +42,7 @@
      </div>
      <div class="form-group">
      <label>Content</label>
-      <textarea name="Maintext" class="form-control" rows="5">><?=$row['Maintext']?></textarea>
+      <textarea name="Maintext" class="form-control" rows="5"><?=$row['Maintext']?></textarea>
       </div>
       <input type="submit" value="Write" class="btn btn-success pull-right">
       </form>
