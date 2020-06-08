@@ -67,8 +67,18 @@
       </div>
       <br>
 
-
-
+      <div class="container">
+             <form action="comment_ok.php" method="post">
+               <div class="form-group">
+               <input type="hidden" name="CO_NUM" value="<?=$_GET['id']?>">
+               <textarea name="CO_TEXT"
+               placeholder="Comment" class="form-control" rows="2"></textarea>
+               </div>
+               <input type="submit" value="Write" class="btn btn-success pull-right btn-lg">
+          </form>
+      </div>
+      <br>
+      <br>
 
      <div class="container">
           <?php //댓글창 불러오기 및 댓글작성자만 수정 및 삭제 활성화, 회원만 작성
@@ -77,34 +87,35 @@
            $select_query2 = "SELECT * FROM comment WHERE CO_NUM={$_GET['id']}";
            $result2 = mysqli_query($sql,$select_query2);
            while ($row2 = mysqli_fetch_array($result2)){ ?>
-           <div class="panel panel-success">
-           <div class="panel-heading"><?=$row2['NAME']?> <?=$row2['Date']?></div>
-           <div class="panel-body"><span><?=$row2['CO_TEXT']?></span><?php
+           <ul class="media-list">
+           <li class="media">
+           <div class="media-body">
+           <div class="well">
+           <h4 class="media-heading text-uppercase reviews"><?=$row2['NAME']?></h4>
+           <ul class="media-date text-uppercase reviews list-inline">
+           <li><?=$row2['Date']?></li>
+           </ul>
+           <p class="media-comment">
+           <?=$row2['CO_TEXT']?>
+           </p><?php
            if (isset($_SESSION['USER_ID'])
            and $row2['NAME'] === $_SESSION['USER_ID']){?>
+           <div class="row">
            <span><form action="commen_delete_ok.php" method="post">
            <input type="hidden" name="ID" value="<?=$row2['ID']?>">
            <input type="hidden" name="CO_NUM" value="<?=$row2['CO_NUM']?>">
-           <input type="submit" value="Delete" class="btn btn-primary pull-right btn-lg"></span>
-           <span><a href="comment_up.php?id=<?=$row2['ID']?>"><button type="button" class="btn btn-primary btn-space pull-right btn-lg"> Edit </button></a></span>
-           </form></div><?php } ?>
+           <input type="submit" value="Delete" class="btn btn-info pull-right"></form></span>     <span><a href="comment_up.php?id=<?=$row2['ID']?>"><button type="button" class="btn btn-primary btn-circle pull-right "> Edit </button></a></span> </div>
            <?php } ?>
            </div>
-            </div>
+           </div>
+           </li>
+           </ul>
+           <?php } ?>
+           </div>
+
 
            <br>
            <br>
-    <div class="container">
-           <form action="comment_ok.php" method="post">
-             <div class="form-group">
-             <input type="hidden" name="CO_NUM" value="<?=$_GET['id']?>">
-             <textarea name="CO_TEXT"
-             placeholder="Comment" class="form-control" rows="2"></textarea>
-             </div>
-             <input type="submit" value="Write" class="btn btn-success pull-right btn-lg">
-        </form>
-    </div>
-
 
   </body>
 </html>
