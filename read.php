@@ -5,6 +5,7 @@
     <title>글읽기</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
@@ -40,7 +41,7 @@
           $result = mysqli_query($sql,$select_query);
           $row = mysqli_fetch_array($result);
           $row['HIT'] = $row['HIT'] +1;
-          $HIT_query = "UPDATE board SET HIT= {$row['HIT']} WHERE ID={$_GET['id']}";;
+          $HIT_query = "UPDATE board SET HIT= {$row['HIT']} WHERE idx={$_GET['id']}";
           $result_HIT =  mysqli_query($sql,$HIT_query);
           ?>
           <div class="page-header">
@@ -64,8 +65,20 @@
         <?php }
         }?>
       <span><a href="index.php?"><button type="button" class="btn btn-primary pull-left btn-lg">List</button></a></span>
+
+      <div class="col text-center">
+      <span>
+        <form action="like_ok.php" method="post">
+        <input type="hidden" name="ID" value="<?=$_GET['id']?>">
+        <i class="fa fa-thumbs-up">
+        <input class="btn btn-link btn-lg" type="submit" value="like">
+        </i></form></span>
+
+      </div>
       </div>
       <br>
+
+
 
       <div class="container">
              <form action="comment_ok.php" method="post">

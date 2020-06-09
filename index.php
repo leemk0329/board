@@ -41,13 +41,29 @@
           </tr>
         </thead>
           <?php
+          date_default_timezone_set('Asia/Seoul');
+          require("db.php");
+          $sql = mysqli_connect($AD,$ID,$PW,$DB);
+          if (!isset($_COOKIE["IP"])) {
+            setcookie("IP", $_SERVER["REMOTE_ADDR"]);
+            $today=date("Y-m-d");
+            $count_query ="SELECT date FROM counter";
+            $count_result = mysqli_query($sql,$count_query);
+            $count_row = mysqli_fetch_array($count_result);
+            if (!isset($count_row["date"]) ) {
+              $count_query3 = "INSERT INTO counter(date, count) VALUES(NOW(), '1')";
+              $result3 = mysqli_query($sql,$count_query3);
+              } elseif ($today==$count_row["date"]) {
+              $count_query2 = "UPDATE counter SET count = count+1";
+              $count_result2 = mysqli_query($sql,$count_query2);
+              }
+            }
+
           if(isset($_GET['page'])){
            $page = $_GET['page'];
              }else{
                $page = 1;
              }
-          require("db.php");
-          $sql = mysqli_connect($AD,$ID,$PW,$DB);
           $select_query = "SELECT * FROM board";
           $result = mysqli_query($sql,$select_query);
           $row_count = mysqli_num_rows($result);
@@ -68,7 +84,8 @@
             $select_query3= "SELECT * FROM comment where CO_NUM ={$row['idx']}";
             $result3 = mysqli_query($sql,$select_query3);
             $co_count = mysqli_num_rows($result3);
-          ?>
+            ?>
+
           <tbody>
             <tr>
               <td><?php echo $row['idx'];?></td>
