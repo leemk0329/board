@@ -27,9 +27,91 @@
      </ul>
     </div>
    </nav>
-    <br>
-    <div class="container">
 
+    <?php
+    date_default_timezone_set('Asia/Seoul');
+    require("db.php");
+    $sql = mysqli_connect($AD,$ID,$PW,$DB);
+    if (!isset($_COOKIE["IP"])) {
+      setcookie("IP", $_SERVER["REMOTE_ADDR"]);
+      $today=date("Y-m-d");
+      $count_query ="SELECT date FROM counter";
+      $count_result = mysqli_query($sql,$count_query);
+      $count_row = mysqli_fetch_array($count_result);
+      if (!isset($count_row["date"]) ) {
+        $count_query3 = "INSERT INTO counter(date, count, allcount) VALUES(NOW(), '1', '1')";
+        $result3 = mysqli_query($sql,$count_query3);
+        }
+      elseif ($today==$count_row["date"]) {
+      $count_query2 = "UPDATE counter SET count = count+1";
+      $count_result2 = mysqli_query($sql,$count_query2);
+        }
+      }
+      $count_query4 ="SELECT * FROM counter WHERE date = CURDATE()";
+      $count_result4 = mysqli_query($sql,$count_query4);
+      $count_row2= mysqli_fetch_array($count_result4);
+
+      $count_query5 ="SELECT SUM(count) AS allcount FROM counter";
+      $count_result5 = mysqli_query($sql,$count_query5);
+      $count_row3= mysqli_fetch_array($count_result5);
+      ?>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-2">
+          <table class="table-borderless">
+           <thead>
+             <tr><th>Total  <?php echo $count_row3['allcount']?></th></tr>
+              <tr><th>Today   <?php echo $count_row2['count']?></th></tr>
+           </thead>
+          </table>
+        </div>
+        <div class="col-sm-6">
+        </div>
+        <div class="col-sm-2">
+          <p><strong>BEST</strong></p>
+          <table class="table-borderless">
+            <thead>
+              <tr>
+                <th width></th>
+              </tr>
+            </thead>
+            <?php $best_query = "SELECT * FROM board";
+             $best_result = mysqli_query($sql,$best_query);
+             while ($best_row = mysqli_fetch_array($best_result)) { ?>
+
+            <tbody>
+             <td ><small><a href="best.php"><?php echo $best_row["Title"];?></a></small></td>
+           </tbody>
+           <?php } ?>
+            <tr>
+          </table>
+        </div>
+        <div class="col-sm-2">
+          <p><strong>Notice</strong></p>
+          <table class="table-borderless">
+            <thead>
+              <tr>
+                <th width></th>
+              </tr>
+            </thead>
+            <?php $notice_query = "SELECT * FROM notice";
+             $notice_result = mysqli_query($sql,$notice_query);
+             while ($notice_row = mysqli_fetch_array($notice_result)) { ?>
+
+            <tbody>
+             <td ><small><a href="notice.php"><?php echo $notice_row["title"];?></a></small></td>
+           </tbody>
+           <?php } ?>
+            <tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    <div class="container">
       <table class="table table-hover">
         <thead>
           <tr>
@@ -40,25 +122,8 @@
                 <th width="50">Views</th>
           </tr>
         </thead>
-          <?php
-          date_default_timezone_set('Asia/Seoul');
-          require("db.php");
-          $sql = mysqli_connect($AD,$ID,$PW,$DB);
-          if (!isset($_COOKIE["IP"])) {
-            setcookie("IP", $_SERVER["REMOTE_ADDR"]);
-            $today=date("Y-m-d");
-            $count_query ="SELECT date FROM counter";
-            $count_result = mysqli_query($sql,$count_query);
-            $count_row = mysqli_fetch_array($count_result);
-            if (!isset($count_row["date"]) ) {
-              $count_query3 = "INSERT INTO counter(date, count) VALUES(NOW(), '1')";
-              $result3 = mysqli_query($sql,$count_query3);
-              } elseif ($today==$count_row["date"]) {
-              $count_query2 = "UPDATE counter SET count = count+1";
-              $count_result2 = mysqli_query($sql,$count_query2);
-              }
-            }
 
+          <?php
           if(isset($_GET['page'])){
            $page = $_GET['page'];
              }else{
@@ -87,6 +152,7 @@
             ?>
 
           <tbody>
+
             <tr>
               <td><?php echo $row['idx'];?></td>
               <td>
