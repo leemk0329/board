@@ -15,7 +15,9 @@
     </style>
   </head>
   <body>
-    <?php session_start(); ?>
+    <?php session_start();
+    date_default_timezone_set('Asia/Seoul');
+     ?>
     <nav class="navbar navbar-inverse">
      <div class="container-fluid">
       <div class="navbar-header">
@@ -32,7 +34,6 @@
      </div>
     </nav>
 
-    <div class="container">
       <br>
           <?php
           require("db.php");
@@ -43,43 +44,81 @@
           $row['HIT'] = $row['HIT'] +1;
           $HIT_query = "UPDATE board SET HIT= {$row['HIT']} WHERE idx={$_GET['id']}";
           $result_HIT =  mysqli_query($sql,$HIT_query);
+
+          $like_query = "SELECT * FROM good WHERE like_num = {$_GET['id']}";
+          $like_result = mysqli_query($sql,$like_query);
+          $like_row = mysqli_fetch_array($like_result);
+
+          $dislike_query = "SELECT * FROM dislike WHERE dislike_num = {$_GET['id']}";
+          $dislike_result = mysqli_query($sql,$dislike_query);
+          $dislike_row = mysqli_fetch_array($dislike_result);
           ?>
-          <div class="page-header">
-          <h3 align="center"><?php echo $row['Title']?></h3>
+          <div class="container">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+             <td class="col-sm-3 text-left" style="word-spacing:10px"><h3><i class="fa fa-thumbs-up"><?php echo $like_row['like_count']?></i>
+             <i class="fa fa-thumbs-down"><?php echo $dislike_row['dislike_count']?></i></h3></td>
+
+            <td class="col-sm-6 text-center"><h2><?php echo $row['Title']?></h2></td>
+
+            <td class="col-sm-3 text-right" style="word-spacing:10px"><h4><?php echo $row['NAME']?> <?php echo $row['Date']?></h4></td>
+            </tr>
+           </tbody>
+          </table>
           </div>
-          <p align=right><?php echo $row['NAME']?> <?php echo $row['Date']?></p>
+
+          <div class="container">
+
           <div class="jumbotron" style="background-color: transparent !important;">
           <p align=center><?php echo $row['Maintext']?></p>
           </div>
+          </div>
 
         <br>
+        <div class="container">
+        <div class="row">
+        <div class="col-sm-3">
       <?php // 작성자로 로그인시 수정 및 삭제창 나타나도록 구현
       if (isset($_SESSION['USER_ID'])){
         if($row['NAME'] === $_SESSION['USER_ID']){?>
         <span><form action="delete_ok.php" method="post">
         <input type="hidden" name="ID" value="<?=$_GET['id']?>">
-        <input class="btn btn-primary pull-right btn-lg" type="submit" value="Delete">
+        <input class="btn btn-primary pull-left btn-lg btn-space" type="submit" value="Delete">
         </form></span>
           <span><a href="update.php?id=<?=$_GET['id'];?>">
-          <button type="button" class="btn btn-primary pull-right btn-space btn-lg">Edit</button></a></span>
+          <button type="button" class="btn btn-primary pull-left btn-space btn-lg">Edit</button></a></span>
         <?php }
-        }?>
-      <span><a href="index.php?"><button type="button" class="btn btn-primary pull-left btn-lg">List</button></a></span>
+        }?></div>
 
-      <div class="col text-center">
-      <span>
-        <form action="like_ok.php" method="post">
-        <input type="hidden" name="ID" value="<?=$_GET['id']?>">
+
+        <div class="col-sm-3 text-right">
+        <span><form action="like_ok.php" method="post">
+        <input type="hidden" name="like_num" value="<?=$_GET['id']?>">
         <i class="fa fa-thumbs-up">
-        <input class="btn btn-link btn-lg" type="submit" value="like">
+        <input class="btn btn-success btn-sm btn-space" type="submit" value="LIKE ">
         </i></form></span>
+        </div>
+        <div class="col-sm-3">
+        <span><form action="dislike_ok.php" method="post">
+        <input type="hidden" name="dislike_num" value="<?=$_GET['id']?>">
+        <i class="fa fa-thumbs-down">
+        <input class="btn btn-warning btn-sm btn-space" type="submit" value="DISLIKE">
+        </i></form></span></div>
 
-      </div>
-      </div>
+        <div class="col-sm-3 text-right">
+        <span><a href="index.php?"><button type="button" class="btn btn-info btn-lg">List</button></a></span>
+        </div>
+        </div>
+        </div>
       <br>
-
-
-
       <div class="container">
              <form action="comment_ok.php" method="post">
                <div class="form-group">
