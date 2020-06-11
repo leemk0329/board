@@ -35,34 +35,33 @@
     if (!isset($_COOKIE["IP"])) {
       setcookie("IP", $_SERVER["REMOTE_ADDR"]);
       $today=date("Y-m-d");
-      $count_query ="SELECT date FROM counter";
+      $count_query ="SELECT * FROM counter WHERE count_date = CURDATE()";
       $count_result = mysqli_query($sql,$count_query);
-      $count_row = mysqli_fetch_array($count_result);
-      if (!isset($count_row["date"]) ) {
-        $count_query3 = "INSERT INTO counter(date, count, allcount) VALUES(NOW(), '1', '1')";
-        $result3 = mysqli_query($sql,$count_query3);
+      $count_row = mysqli_num_rows($count_result);
+      if ($count_row == 0) {
+        $count_query2 = "INSERT INTO counter(count_date, count) VALUES(NOW(), 1)";
+        $result2 = mysqli_query($sql,$count_query2);
         }
-      elseif ($today==$count_row["date"]) {
-      $count_query2 = "UPDATE counter SET count = count+1";
-      $count_result2 = mysqli_query($sql,$count_query2);
+      elseif ($count_row == 1) {
+      $count_query3 = "UPDATE counter SET count = count+1 WHERE count_date = CURDATE() ";
+      $count_result3 = mysqli_query($sql,$count_query3);
         }
       }
-      $count_query4 ="SELECT * FROM counter WHERE date = CURDATE()";
+      $count_query4 ="SELECT * FROM counter WHERE count_date = CURDATE()";
       $count_result4 = mysqli_query($sql,$count_query4);
-      $count_row2= mysqli_fetch_array($count_result4);
+      $count_row4= mysqli_fetch_array($count_result4);
 
       $count_query5 ="SELECT SUM(count) AS allcount FROM counter";
       $count_result5 = mysqli_query($sql,$count_query5);
-      $count_row3= mysqli_fetch_array($count_result5);
+      $count_row5= mysqli_fetch_array($count_result5);
       ?>
-
     <div class="container">
       <div class="row">
         <div class="col-sm-2">
           <table class="table-borderless">
            <thead>
-             <tr><th>Total  <?php echo $count_row3['allcount']?></th></tr>
-              <tr><th>Today   <?php echo $count_row2['count']?></th></tr>
+             <tr><th>Total  <?php echo $count_row5['allcount']?></th></tr>
+              <tr><th>Today   <?php echo $count_row4['count']?></th></tr>
            </thead>
           </table>
         </div>
@@ -109,6 +108,9 @@
       </div>
     </div>
     <br>
+    <br>
+    <br>
+
 
 
     <div class="container">
