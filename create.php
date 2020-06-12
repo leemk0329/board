@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="/summernote-master/dist/summernote-lite.js"></script>
+    <script src="/summernote-master/dist/lang/summernote-ko-KR.js"></script>
+    <link rel="stylesheet" href="/summernote-master/dist/summernote-lite.css">
   </head>
   <?php
   session_start();
@@ -34,18 +37,24 @@
     <br>
     <br>
        <form action="create_ok.php" method="post">
-        <div class="col-lg-6" style="float:none; margin:0 auto;">
         <div class="form-group">
           <label>Title</label>
           <input type="text" placeholder="Title" name="Title" class="form-control">
         </div>
         <div class="form-group">
           <label>Content</label>
-          <textarea name="Maintext" placeholder="Content" class="form-control" rows="5"></textarea>
+          <textarea id="summernote" name="Maintext" class="form-control" rows="5"></textarea>
+          <script> $(document).ready(function()
+          { $('#summernote').summernote({
+                height: 500,
+		            minHeight: null,
+		            maxHeight: null,
+		            focus: true,
+		            lang: "ko-KR"
+	          });
+           });</script>
         </div>
-
           <input type="submit" value="Write" class="btn btn-success pull-right">
-        </div>
         </form>
         </div>
    </body><?php ;} ?>

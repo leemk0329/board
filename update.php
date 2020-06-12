@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="/summernote-master/dist/summernote-lite.js"></script>
+    <script src="/summernote-master/dist/lang/summernote-ko-KR.js"></script>
+    <link rel="stylesheet" href="/summernote-master/dist/summernote-lite.css">
   </head>
   <body>
     <nav class="navbar navbar-inverse">
@@ -42,10 +45,19 @@
      </div>
      <div class="form-group">
      <label>Content</label>
-      <textarea name="Maintext" class="form-control" rows="5"><?=$row['Maintext']?></textarea>
+      <textarea id="summernote" name="Maintext" class="form-control" rows="5"><?=$row['Maintext']?></textarea>
+      <script> $(document).ready(function()
+      { $('#summernote').summernote({
+            height: 500,
+            minHeight: null,
+            maxHeight: null,
+            focus: true,
+            lang: "ko-KR"
+        });
+       });</script>
       </div>
       <input type="submit" value="Write" class="btn btn-success pull-right">
       </form>
-
+      </div>
   </body>
 </html>
