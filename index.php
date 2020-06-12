@@ -68,19 +68,19 @@
         <div class="col-sm-6">
         </div>
         <div class="col-sm-2">
-          <p><strong>BEST</strong></p>
+          <p><strong>BEST</strong>&nbsp;&nbsp;<a href="best_index.php"><i class="glyphicon glyphicon-plus"></i></a></p>
           <table class="table-borderless">
             <thead>
               <tr>
                 <th width></th>
               </tr>
             </thead>
-            <?php $best_query = "SELECT * FROM board";
+            <?php $best_query = "SELECT * FROM board LEFT JOIN good ON board.idx = good.like_num WHERE like_count >= 5 limit 5";
              $best_result = mysqli_query($sql,$best_query);
              while ($best_row = mysqli_fetch_array($best_result)) { ?>
 
             <tbody>
-             <td ><small><a href="best.php"><?php echo $best_row["Title"];?></a></small></td>
+             <td ><small><a href="read.php?id=<?php echo $best_row["idx"];?>"><?php echo $best_row["Title"];?></a></small></td>
            </tbody>
            <?php } ?>
             <tr>
