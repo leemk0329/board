@@ -13,10 +13,10 @@ $like_row = mysqli_num_rows($like_result);
     $like_query2 = "INSERT INTO good(like_num, like_count)
                     VALUES({$_POST["like_num"]},1)";
     $like_result2 = mysqli_query($sql,$like_query2);
-    echo "<script>alert('LIKE!'); location.href='index.php';</script>";
+    echo "<script>alert('LIKE!'); location.href='read.php?id={$_POST["like_num"]}';</script>";
 } elseif ($like_row == 1) {
-  $count_query3 = "UPDATE good SET like_count = like_count+1 WHERE {$_POST["like_num"]}";
+  $count_query3 = "UPDATE good SET like_count = like_count+1 WHERE like_num = {$_POST["like_num"]}";
   $count_result3 = mysqli_query($sql,$count_query3);
-  echo "<script>alert('LIKE!'); location.href='index.php';</script>";
+  echo "<script>alert('LIKE!'); location.href='read.php?id={$_POST["like_num"]}';</script>";
 }
 } ?>
