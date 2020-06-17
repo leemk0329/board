@@ -34,7 +34,8 @@
     $sql = mysqli_connect($AD,$ID,$PW,$DB);
     if (!isset($_COOKIE["IP"])) {
       setcookie("IP", $_SERVER["REMOTE_ADDR"]);
-      $today=date("Y-m-d");
+      $ip_query ="INSERT INTO ipck(ip, ip_date) VALUES(INET_ATON('$_SERVER[REMOTE_ADDR]'), NOW())";
+      $ip_result = mysqli_query($sql,$ip_query);
       $count_query ="SELECT * FROM counter WHERE count_date = CURDATE()";
       $count_result = mysqli_query($sql,$count_query);
       $count_row = mysqli_num_rows($count_result);
@@ -75,7 +76,7 @@
                 <th width></th>
               </tr>
             </thead>
-            <?php $best_query = "SELECT * FROM board LEFT JOIN good ON board.idx = good.like_num WHERE like_count >= 5 limit 5";
+            <?php $best_query = "SELECT * FROM board LEFT JOIN taste ON board.idx = taste.taste_num WHERE like_count >= 5 limit 5";
              $best_result = mysqli_query($sql,$best_query);
              while ($best_row = mysqli_fetch_array($best_result)) { ?>
 
