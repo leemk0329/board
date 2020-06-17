@@ -45,13 +45,13 @@
           $HIT_query = "UPDATE board SET HIT= {$row['HIT']} WHERE idx={$_GET['id']}";
           $result_HIT =  mysqli_query($sql,$HIT_query);
 
-          $like_query = "SELECT * FROM good WHERE like_num = {$_GET['id']}";
+          $like_query = "SELECT SUM(like_count) AS all_like FROM taste WHERE taste_num = {$_GET['id']}";
           $like_result = mysqli_query($sql,$like_query);
           $like_row = mysqli_fetch_array($like_result);
 
-          $dislike_query = "SELECT * FROM dislike WHERE dislike_num = {$_GET['id']}";
-          $dislike_result = mysqli_query($sql,$dislike_query);
-          $dislike_row = mysqli_fetch_array($dislike_result);
+          $like_query2 = "SELECT SUM(bad_count) AS all_bad FROM taste WHERE taste_num = {$_GET['id']}";
+          $like_result2 = mysqli_query($sql,$like_query2);
+          $like_row2 = mysqli_fetch_array($like_result2);
           ?>
           <div class="container">
           <table class="table table-striped">
@@ -64,8 +64,8 @@
             </thead>
             <tbody>
             <tr>
-             <td class="col-sm-3 text-left" style="word-spacing:10px"><h3><i class="fa fa-thumbs-up"><?php echo $like_row['like_count']?></i>
-             <i class="fa fa-thumbs-down"><?php echo $dislike_row['dislike_count']?></i></h3></td>
+             <td class="col-sm-3 text-left" style="word-spacing:10px"><h3><i class="fa fa-thumbs-up"><?php echo $like_row['all_like']?></i>
+             <i class="fa fa-thumbs-down"><?php echo $like_row2['all_bad']?></i></h3></td>
 
             <td class="col-sm-6 text-center"><h2><?php echo $row['Title']?></h2></td>
 
@@ -108,7 +108,7 @@
         </div>
         <div class="col-sm-3">
         <span><form action="dislike_ok.php" method="post">
-        <input type="hidden" name="dislike_num" value="<?=$_GET['id']?>">
+        <input type="hidden" name="like_num" value="<?=$_GET['id']?>">
         <i class="fa fa-thumbs-down">
         <input class="btn btn-warning btn-sm btn-space" type="submit" value="DISLIKE">
         </i></form></span></div>
@@ -156,7 +156,7 @@
            <span><form action="commen_delete_ok.php" method="post">
            <input type="hidden" name="ID" value="<?=$row2['ID']?>">
            <input type="hidden" name="CO_NUM" value="<?=$row2['CO_NUM']?>">
-           <input type="submit" value="Delete" class="btn btn-info pull-right"></form></span>     <span><a href="comment_up.php?id=<?=$row2['ID']?>"><button type="button" class="btn btn-primary btn-circle pull-right "> Edit </button></a></span> </div>
+           <input type="submit" value="Delete" class="btn btn-info pull-right"></form></span>     <span><a href="comment_up.php?id=<?=$row2['ID']?>"><button type="button" class="btn btn-primary btn-circle pull-right btn-space"> Edit </button></a></span> </div>
            <?php } ?>
            </div>
            </div>
